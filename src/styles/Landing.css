@@ -6,7 +6,7 @@
 .landing #tsparticles canvas {
   min-height: 95vh !important;
 }
-.landing .landing-content{
+.landing-content{
   position: absolute;
   top: 50%;
   left: 50%;
@@ -18,21 +18,21 @@
   border-radius: 10px;
 }
 
-.landing-content a{
+.main-button{
   text-decoration: none;
   font-weight: bold;
-  font-size: 20px;
-  padding: 24px;
+  font-size: 16px;
+  padding: 16px;
   color: #fff;
   background-color: #151845;
-  max-width: 225px;
   border-radius: 10px;
   display: flex;
   justify-content: center;
   align-items: center;
+  cursor: pointer;
 }
-.landing-content a:hover{
-  background-color: #111539;
+.main-button:hover{
+  background-color: #19425f;
 }
 
 .landing-shiba{

@@ -9,14 +9,14 @@ function Landing() {
           <Particles id="tsparticles" />
           <div className="landing-content">
             <div className='landing-shiba'>
-              <img src={require('../images/shiba.png')} />
+              <img src={require('../images/shiba.png')} alt="shiba"/>
             </div>
             <div className='landing-info'>
               <div className="form-row">
                 <h3>Welcome to the space trip to the new canine planet, where only the most handsome and intelligent humans can enter,</h3>
               </div>
               <h4>would you like to come? </h4>
-              <Link to="form">Let's Get your Tickets!</Link>
+              <Link to="form" className="main-button">Let's Get your Tickets!</Link>
             </div>
           </div>
         </div>
