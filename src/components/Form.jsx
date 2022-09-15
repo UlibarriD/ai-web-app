@@ -1,7 +1,7 @@
 import Particles from "./Particles";
 import { useState } from "react";
 import { FaWindowClose } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 function Form() {
   const [passangerCount, setPassangerCount] = useState("1");
@@ -23,6 +23,8 @@ function Form() {
   const [passengers, setPassengers] = useState([]);
   const [stage, setStage] = useState(0);
 
+  const navigate = useNavigate();
+
   const nextStage = async (event) => {
     event.preventDefault();
     if (stage > 0) {
@@ -38,35 +40,77 @@ function Form() {
         VIP: vip,
         RoomService: roomService,
         FoodCourt: foodcourt,
-        Shopping: shopping,
+        ShoppingMall: shopping,
         Spa: spa,
         VRDeck: vrDeck,
         Name: name,
       };
-      const dataJson = await JSON.stringify(newData);
-      const newList = passengers.concat(dataJson);
+      const newList = passengers.concat(newData);
       setPassengers(newList);
     }
     setStage(stage + 1);
   };
 
   const sendData = async (event) => {
+    localStorage.clear();
+    
     event.preventDefault();
     const sendData = {
+      Model: "SVM",
       Passengers: passengers,
     };
 
-    const message = await fetch("http://34.201.107.64:8080/form", {
+    const testSolution = {
+      Message: "Success",
+      Passengers: [
+        {
+          Age: 40,
+          Cabin: "A/0/P",
+          CryoSleep: false,
+          Destination: "55 Cancri e",
+          FoodCourt: 0.0,
+          HomePlanet: "Earth",
+          Name: "TEST",
+          PassengerId: "99999_01",
+          Result: 1,
+          RoomService: 56.0,
+          ShoppingMall: 20.0,
+          Spa: 300.0,
+          VIP: true,
+          VRDeck: 1.0,
+        },
+        {
+          Age: 40,
+          Cabin: "A/0/S",
+          CryoSleep: false,
+          Destination: "55 Cancri e",
+          FoodCourt: 0.0,
+          HomePlanet: "Earth",
+          Name: "TEST2",
+          PassengerId: "99999_02",
+          Result: 1,
+          RoomService: 6.0,
+          ShoppingMall: 0.0,
+          Spa: 350.0,
+          VIP: true,
+          VRDeck: 0.0,
+        },
+      ],
+    };
+
+    localStorage.setItem("resultJson", JSON.stringify(testSolution.Passengers));
+    navigate("/result");
+
+    const testSolution2 = await fetch("http://10.48.79.88:8080/form", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(sendData),
+      body: sendData,
     });
 
-    const jsonMessage = message.json();
-    console.log(jsonMessage);
-    console.log(sendData.Passengers);
+    const jsontestSolution2 = await testSolution2.json();
+    console.log(jsontestSolution2);
   };
 
   const prevStage = (event) => {

@@ -2,7 +2,7 @@ import './App.css';
 import { Route, Routes } from "react-router-dom";
 import Landing from './components/Landing';
 import Form from './components/Form'
-import Result from './components/Result'
+//import Result from './components/Result'
 import Carrousel from './components/Carrousel'
 
 function App() {
