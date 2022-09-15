@@ -1,0 +1,56 @@
+.header-banner{
+  min-height: 45vh;
+  background-color: transparent;
+}
+.header-banner #tsparticles canvas {
+  min-height: 50vh !important;
+}
+
+.landing{
+  min-height: 100vh;
+  background-color: #000;
+  position: relative;
+}
+
+.landing-content{
+  min-height: 49vh;
+  background-color: #fff;
+  display: flex;
+  flex-direction: column; 
+  align-items: center;
+}
+
+.landing #tsparticles canvas {
+  min-height: 95vh !important;
+}
+
+.landing .landing-content{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 80%;
+  height: 80%;
+  border-radius: 10px;
+  background-color: rgba(255, 255, 255, 0.96);
+}
+
+.landing-content h2{
+  margin: 0;
+}
+.landing-content a{
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 20px;
+  padding: 24px;
+  color: #fff;
+  background-color: red;
+  max-width: 225px;
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.landing-content a:hover{
+  background-color: rgb(221, 30, 30);
+}
