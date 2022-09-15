@@ -19,9 +19,9 @@ function Carrousel() {
   return (
     <div>
       <Carousel>
-        {modelResult.map((result, index) => {
+        {modelResult.map((result) => {
           return(
-            <Carousel.Item interval={5000} key={index}>
+            <Carousel.Item interval={5000}>
               <Result res={result}/>
             </Carousel.Item>
           )

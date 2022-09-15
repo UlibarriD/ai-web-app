@@ -53,13 +53,12 @@ function Form() {
 
   const sendData = async (event) => {
     localStorage.clear();
-
+    
     event.preventDefault();
     const sendData = {
-      "Model": "SVM",
-      "Passengers": passengers,
+      Model: "SVM",
+      Passengers: passengers,
     };
-    console.log(sendData);
 
     const testSolution = {
       Message: "Success",
@@ -98,7 +97,10 @@ function Form() {
         },
       ],
     };
-    
+
+    localStorage.setItem("resultJson", JSON.stringify(testSolution.Passengers));
+    navigate("/result");
+
     const testSolution2 = await fetch("http://10.48.79.88:8080/form", {
       method: "POST",
       headers: {
@@ -106,10 +108,8 @@ function Form() {
       },
       body: sendData,
     });
-    
+
     const jsontestSolution2 = await testSolution2.json();
-    // localStorage.setItem("resultJson", JSON.stringify(testSolution2.Passengers));
-    // navigate("/result");
     console.log(jsontestSolution2);
   };
 
