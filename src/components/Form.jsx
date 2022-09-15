@@ -4,15 +4,71 @@ import { FaWindowClose } from "react-icons/fa";
 import { Link } from "react-router-dom";
 
 function Form() {
-  const [passangerCount, setPassangerCount] = useState(1);
-  const [homePlanet, sethomePlanet] = useState("Earth");
+  const [passangerCount, setPassangerCount] = useState("1");
+  const [homePlanet, setHomePlanet] = useState("Earth");
   const [destination, setDestination] = useState("TRAPPIST-1e");
+  const [cryoSleep, setCryoSleep] = useState("True");
+  const [name, setName] = useState("Bob Esponja");
+  const [vip, setVip] = useState("True");
+  const [age, setAge] = useState("1");
+  const [roomService, setRoomService] = useState("1");
+  const [foodcourt, setFoodCourt] = useState("1");
+  const [shopping, setShopping] = useState("1");
+  const [spa, setSpa] = useState("1");
+  const [vrDeck, setVrDeck] = useState("1");
+  const [cabin, setCabin] = useState("A");
+  const [cabinNumber, setCabinNumber] = useState("1");
+  const [seatPlace, setSeatPlace] = useState("P");
+
+  const [passengers, setPassengers] = useState([]);
   const [stage, setStage] = useState(0);
 
-  const nextStage = (event) => {
+  const nextStage = async (event) => {
     event.preventDefault();
+    if (stage > 0) {
+      const newData = {
+        PassengerId: `${Math.round(
+          Math.random() * (9999 - 9000) + 9000
+        )}_${stage}`,
+        HomePlanet: homePlanet,
+        CryoSleep: cryoSleep,
+        Cabin: `${cabin}/${cabinNumber}/${seatPlace}`,
+        Destination: destination,
+        Age: age,
+        VIP: vip,
+        RoomService: roomService,
+        FoodCourt: foodcourt,
+        Shopping: shopping,
+        Spa: spa,
+        VRDeck: vrDeck,
+        Name: name,
+      };
+      const dataJson = await JSON.stringify(newData);
+      const newList = passengers.concat(dataJson);
+      setPassengers(newList);
+    }
     setStage(stage + 1);
   };
+
+  const sendData = async (event) => {
+    event.preventDefault();
+    const sendData = {
+      Passengers: passengers,
+    };
+
+    const message = await fetch("http://34.201.107.64:8080/form", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(sendData),
+    });
+
+    const jsonMessage = message.json();
+    console.log(jsonMessage);
+    console.log(sendData.Passengers);
+  };
+
   const prevStage = (event) => {
     event.preventDefault();
     setStage(stage - 1);
@@ -40,7 +96,7 @@ function Form() {
           </div>
         </div>
 
-        {stage === 0 && (
+        {stage < 1 && (
           <div className="form-content">
             <div className="form-row">
               <h2>Get your Tickets</h2>
@@ -68,7 +124,7 @@ function Form() {
                   name="homePlanet"
                   id="homePlanet"
                   placeholder="Home Planet"
-                  onChange={(e) => sethomePlanet(e.target.value)}
+                  onChange={(e) => setHomePlanet(e.target.value)}
                 >
                   <option value="Earth">Earth</option>
                   <option value="Europa">Europa</option>
@@ -98,10 +154,10 @@ function Form() {
           </div>
         )}
 
-        {stage !== 0 && (
+        {(stage !== 0) & (stage <= parseInt(passangerCount)) && (
           <div className="form-content">
             <div className="form-row">
-              <h2>Get your Tickets</h2>
+              <h2>Passenger {stage}</h2>
             </div>
 
             <div className="form-row">
@@ -112,6 +168,7 @@ function Form() {
                   id="name"
                   placeholder="Neil Amstrong"
                   required
+                  onChange={(e) => setName(e.target.value)}
                 />
               </div>
               <div className="form-row-col">
@@ -119,7 +176,7 @@ function Form() {
                 <select
                   name="cryoSleep"
                   id="cryoSleep"
-                  onChange={(e) => setDestination(e.target.value)}
+                  onChange={(e) => setCryoSleep(e.target.value)}
                 >
                   <option value="True">Yes</option>
                   <option value="False">No</option>
@@ -129,11 +186,13 @@ function Form() {
 
             <div className="form-row">
               <div className="form-row-col3">
-                <label htmlFor="cabin">Choose your <br /> cabin:</label>
+                <label htmlFor="cabin">
+                  Choose your <br /> cabin:
+                </label>
                 <select
                   name="cabin"
                   id="cabin"
-                  onChange={(e) => setDestination(e.target.value)}
+                  onChange={(e) => setCabin(e.target.value)}
                 >
                   <option value="A">A</option>
                   <option value="B">B</option>
@@ -145,7 +204,9 @@ function Form() {
                 </select>
               </div>
               <div className="form-row-col3">
-                <label htmlFor="cabinNumber">Choose your <br /> cabin number:</label>
+                <label htmlFor="cabinNumber">
+                  Choose your <br /> cabin number:
+                </label>
                 <input
                   name="cabinNumber"
                   placeholder="1"
@@ -153,11 +214,18 @@ function Form() {
                   type="number"
                   min="1"
                   max="999"
+                  onChange={(e) => setCabinNumber(e.target.value)}
                 />
               </div>
               <div className="form-row-col3">
-                <label htmlFor="cabinSeatPlace">Seat <br /> Place:</label>
-                <select name="cabinSeatPlace" id="cabinSeatPlace">
+                <label htmlFor="cabinSeatPlace">
+                  Seat <br /> Place:
+                </label>
+                <select
+                  name="cabinSeatPlace"
+                  id="cabinSeatPlace"
+                  onChange={(e) => setSeatPlace(e.target.value)}
+                >
                   <option value="P">P</option>
                   <option value="S">S</option>
                 </select>
@@ -174,6 +242,7 @@ function Form() {
                   type="number"
                   min="1"
                   max="9999"
+                  onChange={(e) => setAge(e.target.value)}
                 />
               </div>
               <div className="form-row-col">
@@ -181,6 +250,7 @@ function Form() {
                 <select
                   name="vip"
                   id="vip"
+                  onChange={(e) => setVip(e.target.value)}
                 >
                   <option value="True">Yes</option>
                   <option value="False">No</option>
@@ -190,7 +260,9 @@ function Form() {
 
             <div className="form-row">
               <div className="form-row-col">
-                <label htmlFor="roomService">Estimation of expenses in room service?</label>
+                <label htmlFor="roomService">
+                  Estimation of expenses in room service?
+                </label>
                 <input
                   name="roomService"
                   placeholder="1"
@@ -198,11 +270,14 @@ function Form() {
                   type="number"
                   min="1"
                   max="9999"
+                  onChange={(e) => setRoomService(e.target.value)}
                 />
               </div>
 
               <div className="form-row-col">
-                <label htmlFor="foodCourt">Estimation of expenses in food court?</label>
+                <label htmlFor="foodCourt">
+                  Estimation of expenses in food court?
+                </label>
                 <input
                   name="foodCourt"
                   placeholder="1"
@@ -210,13 +285,16 @@ function Form() {
                   type="number"
                   min="1"
                   max="9999"
+                  onChange={(e) => setFoodCourt(e.target.value)}
                 />
               </div>
             </div>
 
             <div className="form-row">
               <div className="form-row-col">
-                <label htmlFor="shopping">Estimation of expenses in shopping?</label>
+                <label htmlFor="shopping">
+                  Estimation of expenses in shopping?
+                </label>
                 <input
                   name="shopping"
                   placeholder="1"
@@ -224,6 +302,7 @@ function Form() {
                   type="number"
                   min="1"
                   max="9999"
+                  onChange={(e) => setShopping(e.target.value)}
                 />
               </div>
 
@@ -236,21 +315,25 @@ function Form() {
                   type="number"
                   min="1"
                   max="9999"
+                  onChange={(e) => setSpa(e.target.value)}
                 />
               </div>
             </div>
 
             <div className="form-row">
               <div className="form-row-col">
-                <label htmlFor="VRDeck">Estimation of expenses in VR deck?</label>
+                <label htmlFor="VRDeck">
+                  Estimation of expenses in VR deck?
+                </label>
                 <input
-                    name="spa"
-                    placeholder="1"
-                    id="spa"
-                    type="number"
-                    min="1"
-                    max="9999"
-                  />
+                  name="spa"
+                  placeholder="1"
+                  id="spa"
+                  type="number"
+                  min="1"
+                  max="9999"
+                  onChange={(e) => setVrDeck(e.target.value)}
+                />
               </div>
             </div>
 
@@ -262,6 +345,14 @@ function Form() {
                 Continue
               </button>
             </div>
+          </div>
+        )}
+
+        {stage > parseInt(passangerCount) && (
+          <div className="form-content">
+            <button className="main-button" onClick={(e) => sendData(e)}>
+              Send Data
+            </button>
           </div>
         )}
       </form>
