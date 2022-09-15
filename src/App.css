@@ -4,6 +4,15 @@
   text-align: center;
 }
 
+h3 {
+  margin: 0;
+  color: #151845;
+}
+h2 {
+  margin: 0;
+  color: #151845;
+}
+
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',

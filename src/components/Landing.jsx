@@ -8,10 +8,16 @@ function Landing() {
         <div className="landing">
           <Particles id="tsparticles" />
           <div className="landing-content">
-            <img src={require('../images/shiba.png')} />
-            <h2>Where do keyboards go to have dinner? </h2>
-            <p>The Space Bar.</p>
-            <Link to="form">Let's Get your Tickets!</Link>
+            <div className='landing-shiba'>
+              <img src={require('../images/shiba.png')} />
+            </div>
+            <div className='landing-info'>
+              <div className="form-row">
+                <h3>Welcome to the space trip to the new canine planet, where only the most handsome and intelligent humans can enter,</h3>
+              </div>
+              <h4>would you like to come? </h4>
+              <Link to="form">Let's Get your Tickets!</Link>
+            </div>
           </div>
         </div>
     </Fragment>
