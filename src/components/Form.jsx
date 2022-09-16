@@ -51,71 +51,36 @@ function Form() {
     setStage(stage + 1);
   };
 
-  const sendData = async (event) => {
+  const sendData = async (event, model) => {
     localStorage.clear();
     
     event.preventDefault();
     const sendData = {
-      Model: "SVM",
-      Passengers: passengers,
+      "Model": model,
+      "Passengers": passengers,
     };
 
-    const testSolution = {
-      Message: "Success",
-      Passengers: [
-        {
-          Age: 40,
-          Cabin: "A/0/P",
-          CryoSleep: false,
-          Destination: "55 Cancri e",
-          FoodCourt: 0.0,
-          HomePlanet: "Earth",
-          Name: "TEST",
-          PassengerId: "99999_01",
-          Result: 1,
-          RoomService: 56.0,
-          ShoppingMall: 20.0,
-          Spa: 300.0,
-          VIP: true,
-          VRDeck: 1.0,
-        },
-        {
-          Age: 40,
-          Cabin: "A/0/S",
-          CryoSleep: false,
-          Destination: "55 Cancri e",
-          FoodCourt: 0.0,
-          HomePlanet: "Earth",
-          Name: "TEST2",
-          PassengerId: "99999_02",
-          Result: 1,
-          RoomService: 6.0,
-          ShoppingMall: 0.0,
-          Spa: 350.0,
-          VIP: true,
-          VRDeck: 0.0,
-        },
-      ],
-    };
-
-    localStorage.setItem("resultJson", JSON.stringify(testSolution.Passengers));
-    navigate("/result");
-
-    const testSolution2 = await fetch("http://10.48.79.88:8080/form", {
+    const testSolution = await fetch("http://10.48.79.88:8080/form", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: sendData,
+      body: JSON.stringify(sendData),
     });
 
-    const jsontestSolution2 = await testSolution2.json();
-    console.log(jsontestSolution2);
+    const jsontestSolution = await testSolution.json();
+
+    localStorage.setItem("resultJson", JSON.stringify(jsontestSolution.Passengers));
+    navigate("/result");
   };
 
   const prevStage = (event) => {
     event.preventDefault();
     setStage(stage - 1);
+    if (passengers.length() > 0) {
+      const newList = passengers.pop();
+      setPassengers(newList);
+    }
   };
 
   return (
@@ -393,10 +358,23 @@ function Form() {
         )}
 
         {stage > parseInt(passangerCount) && (
-          <div className="form-content">
-            <button className="main-button" onClick={(e) => sendData(e)}>
-              Send Data
-            </button>
+          <div className="form-content" style={{justifyContent: "center"}}>
+            <h2>Choose Model</h2>
+            <div className="form-row">
+              <button className="main-button" style={{width: "100%"}} onClick={(e) => sendData(e, "SVM")}>
+                Support Vector Machines
+              </button>
+            </div>
+            <div className="form-row">
+              <button className="main-button" style={{width: "100%"}} onClick={(e) => sendData(e, "LogisticRegression")}>
+                Logistic Regression
+              </button>
+            </div>
+            <div className="form-row">
+              <button className="main-button" style={{width: "100%"}} onClick={(e) => sendData(e, "RandomForest")}>
+                Random Forest
+              </button>
+            </div>
           </div>
         )}
       </form>

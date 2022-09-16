@@ -5,6 +5,17 @@
     align-items: center;
 }
 
+.background a {
+  position: absolute;
+  top: 10px;
+  right: 50%;
+  color: #000;
+  z-index: 999;
+}
+.background a:hover{
+  color: red;
+}
+
 .image-container{
     display: flex;
     justify-content: center;
